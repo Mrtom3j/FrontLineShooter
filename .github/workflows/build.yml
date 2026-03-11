@@ -22,11 +22,17 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Download Gradle wrapper jar
+        run: |
+          mkdir -p gradle/wrapper
+          curl -L "https://github.com/gradle/gradle/raw/v8.2.0/gradle/wrapper/gradle-wrapper.jar" \
+            -o gradle/wrapper/gradle-wrapper.jar
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
